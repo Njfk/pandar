@@ -22,22 +22,24 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="5dp"
                 android:text="title"
+                android:textColor="@color/colorTitle"
                 android:textSize="20dp" />
+
             <include
+                layout="@layout/point_main"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                layout="@layout/point_main"
                 android:layout_below="@id/title_main" />
         </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
 
     <android.support.design.widget.TabLayout
-        android:layout_below="@id/toolbar_main"
         android:id="@+id/tablayout_main"
         android:layout_width="match_parent"
         android:layout_height="20dp"
+        android:layout_below="@id/toolbar_main"
         app:tabIndicatorColor="#d2b002"
         app:tabSelectedTextColor="#d2b002" />
 
@@ -48,12 +50,12 @@
         android:layout_below="@id/tablayout_main">
 
     </android.support.v4.view.ViewPager>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/float_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="60dp"
-        android:layout_marginLeft="30dp"
-        />
+        android:layout_marginLeft="30dp" />
 </RelativeLayout>
