@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -92,12 +91,12 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             }
         });
         floatingActionButton.setOnTouchListener(new View.OnTouchListener() {
-            int lastX, lastY;
+            int lastX, lastY;// 记录移动的最后的位置
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 // TODO Auto-generated method stub
                 int ea = event.getAction();
-                Log.i("TAG", "Touch:" + ea);
+
                 switch (ea) {
                     case MotionEvent.ACTION_DOWN:
                         lastX = (int) event.getRawX();// 获取触摸事件触摸位置的原始X坐标
