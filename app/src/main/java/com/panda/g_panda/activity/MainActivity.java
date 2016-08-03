@@ -13,7 +13,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.panda.g_panda.R;
 import com.panda.g_panda.adapter.MainViewPagerAdapter;
@@ -92,17 +91,20 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         });
         floatingActionButton.setOnTouchListener(new View.OnTouchListener() {
             int lastX, lastY;// 记录移动的最后的位置
+            private int btnHeight;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 // TODO Auto-generated method stub
                 int ea = event.getAction();
 
                 switch (ea) {
-                    case MotionEvent.ACTION_DOWN:
+                    case MotionEvent.ACTION_DOWN://按下
                         lastX = (int) event.getRawX();// 获取触摸事件触摸位置的原始X坐标
                         lastY = (int) event.getRawY();
+                        btnHeight = floatingActionButton.getHeight();
                         break;
-                    case MotionEvent.ACTION_MOVE:
+                    case MotionEvent.ACTION_MOVE://移动
                         int dx = (int) event.getRawX() - lastX;
                         int dy = (int) event.getRawY() - lastY;
                         int l = v.getLeft() + dx;
@@ -129,12 +131,37 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                         v.layout(l, t, r, b);
                         lastX = (int) event.getRawX();
                         lastY = (int) event.getRawY();
-                        Toast.makeText(MainActivity.this,
-                                "当前位置：" + l + "," + t + "," + r + "," + b,
-                                Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MainActivity.this,
+//                                "当前位置：" + l + "," + t + "," + r + "," + b,
+//                                Toast.LENGTH_SHORT).show();
                         v.postInvalidate();
                         break;
                     case MotionEvent.ACTION_UP:
+                        // 向四周吸附
+                        int dx1 = (int) event.getRawX() - lastX;
+                        int dy1 = (int) event.getRawY() - lastY;
+                        int left1 = v.getLeft() + dx1;
+                        int top1 = v.getTop() + dy1;
+                        int right1 = v.getRight() + dx1;
+                        int bottom1 = v.getBottom() + dy1;
+                        if (left1 < (screenWidth / 2)) {
+                            if (top1 < 100) {
+                                v.layout(left1, 0, right1, btnHeight);
+                            } else if (bottom1 > (screenHeight - 200)) {
+                                v.layout(left1, (screenHeight - btnHeight), right1, screenHeight);
+                            } else {
+                                v.layout(0, top1, btnHeight, bottom1);
+                            }
+                        } else {
+                            if (top1 < 100) {
+                                v.layout(left1, 0, right1, btnHeight);
+                            } else if (bottom1 > (screenHeight - 200)) {
+                                v.layout(left1, (screenHeight - btnHeight), right1, screenHeight);
+                            } else {
+                                v.layout((screenWidth - btnHeight), top1, screenWidth, bottom1);
+                            }
+                        }
+
                         break;
                 }
                 return false;
