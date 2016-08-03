@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                         int bottom1 = v.getBottom() + dy1;
                         if (left1 < (screenWidth / 2)) {
                             if (top1 < 100) {
+
                                 v.layout(left1, 0, right1, btnHeight);
                             } else if (bottom1 > (screenHeight - 200)) {
                                 v.layout(left1, (screenHeight - btnHeight), right1, screenHeight);
