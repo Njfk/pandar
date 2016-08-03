@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.panda.g_panda.R;
 import com.panda.g_panda.adapter.MainViewPagerAdapter;
@@ -80,67 +81,63 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(this);
         tabLayout.setupWithViewPager(viewPager);
-        DisplayMetrics dm = new DisplayMetrics();
+        DisplayMetrics dm = getResources().getDisplayMetrics();
         final int screenWidth = dm.widthPixels;
-        final int screenHeight = dm.heightPixels;
+        final int screenHeight = dm.heightPixels - 50;
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+
             }
         });
         floatingActionButton.setOnTouchListener(new View.OnTouchListener() {
-            int lastX, lastY; // 记录移动的最后的位置
-            private int btnHeight;
-
+            int lastX, lastY;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                // 获取Action
+                // TODO Auto-generated method stub
                 int ea = event.getAction();
+                Log.i("TAG", "Touch:" + ea);
                 switch (ea) {
-                    case MotionEvent.ACTION_DOWN://按下
+                    case MotionEvent.ACTION_DOWN:
                         lastX = (int) event.getRawX();// 获取触摸事件触摸位置的原始X坐标
                         lastY = (int) event.getRawY();
                         break;
                     case MotionEvent.ACTION_MOVE:
-
-                        // 移动中动态设置位置
                         int dx = (int) event.getRawX() - lastX;
                         int dy = (int) event.getRawY() - lastY;
-                        int left = v.getLeft() + dx;
-                        int top = v.getTop() + dy;
-                        int right = v.getRight() + dx;
-                        int bottom = v.getBottom() + dy;
-                        Log.d("1608","dx="+dx);
-                        Log.d("1608","dy="+dy);
-                        Log.d("1608","left="+left);
-                        Log.d("1608","top="+top);
-                        if (left < 0) {
-                            left = 0;
-                            right = left + v.getWidth();
+                        int l = v.getLeft() + dx;
+                        int b = v.getBottom() + dy;
+                        int r = v.getRight() + dx;
+                        int t = v.getTop() + dy;
+                        // 下面判断移动是否超出屏幕
+                        if (l < 0) {
+                            l = 0;
+                            r = l + v.getWidth();
                         }
-                        if (right > screenWidth) {
-                            right = screenWidth;
-                            left = right - v.getWidth();
+                        if (t < 0) {
+                            t = 0;
+                            b = t + v.getHeight();
                         }
-                        if (top < 0) {
-                            top = 0;
-                            bottom = top + v.getHeight();
+                        if (r > screenWidth) {
+                            r = screenWidth;
+                            l = r - v.getWidth();
                         }
-                        if (bottom > screenHeight) {
-                            bottom = screenHeight;
-                            top = bottom - v.getHeight();
+                        if (b > screenHeight) {
+                            b = screenHeight;
+                            t = b - v.getHeight();
                         }
-                        v.layout(left, top, right, bottom);
-                        // Toast.makeText(getActivity(), "position：" + left + ", " +
-                        // top + ", " + right + ", " + bottom, 0)
-                        // .show();
-                        // 将当前的位置再次设置
+                        v.layout(l, t, r, b);
                         lastX = (int) event.getRawX();
                         lastY = (int) event.getRawY();
+                        Toast.makeText(MainActivity.this,
+                                "当前位置：" + l + "," + t + "," + r + "," + b,
+                                Toast.LENGTH_SHORT).show();
+                        v.postInvalidate();
+                        break;
+                    case MotionEvent.ACTION_UP:
                         break;
                 }
-
                 return false;
             }
         });
