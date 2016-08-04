@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.panda.g_panda.R;
 import com.panda.g_panda.bean.VedioEntity;
 
@@ -36,6 +37,11 @@ public class VedioAdapter extends RecyclerView.Adapter<VedioAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.textView.setText(newsList.get(position).getPubTime());
+        holder.homeChannelName.setText(newsList.get(position).getHomeChannelName());
+        holder.newsTitle.setText(newsList.get(position).getNewsTitle());
+        String imagUrl = newsList.get(position).getNewsImage();
+        Glide.with(context).load(imagUrl).into(holder.imageView);
+
 
     }
 
@@ -47,11 +53,13 @@ public class VedioAdapter extends RecyclerView.Adapter<VedioAdapter.MyViewHolder
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView textView;
+        TextView textView, homeChannelName,newsTitle;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.vedio_time_text);
+            homeChannelName = (TextView) itemView.findViewById(R.id.vedio_name);
+            newsTitle= (TextView) itemView.findViewById(R.id.newsTitle);
             imageView = (ImageView) itemView.findViewById(R.id.vedio_newsImage);
 
 
