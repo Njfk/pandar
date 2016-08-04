@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     tools:context="com.panda.g_panda.fragment.VedioFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/vedio_recyceler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="second" />
+        android:layout_height="match_parent" />
 
 </FrameLayout>
